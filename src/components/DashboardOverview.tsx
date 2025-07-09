@@ -256,7 +256,11 @@ export const DashboardOverview = observer(function DashboardOverview({ user }: D
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     {stats.photos.recent.map((photo) => (
-                      <div key={photo.id} className="flex items-center space-x-3">
+                      <a 
+                        key={photo.id} 
+                        href={`/photos/${photo.id}`}
+                        className="flex items-center space-x-3 p-2 -m-2 rounded-lg hover:bg-accent transition-colors"
+                      >
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
                           <img
                             src={getImageUrls(photo.imageId).thumbnail}
@@ -273,7 +277,7 @@ export const DashboardOverview = observer(function DashboardOverview({ user }: D
                             {photo.createdAt ? new Date(photo.createdAt).toLocaleDateString() : 'Unknown date'}
                           </p>
                         </div>
-                      </div>
+                      </a>
                     ))}
                   </div>
                   <Button asChild variant="outline" className="w-full">
@@ -309,7 +313,11 @@ export const DashboardOverview = observer(function DashboardOverview({ user }: D
                   {/* Middle section with galleries - takes available space */}
                   <div className="flex-1 space-y-4">
                     {stats.galleries.recent.map((gallery) => (
-                      <div key={gallery.id} className="flex items-center space-x-4">
+                      <a 
+                        key={gallery.id} 
+                        href={`/galleries/${gallery.id}`}
+                        className="flex items-center space-x-4 p-3 -m-3 rounded-lg hover:bg-accent transition-colors"
+                      >
                         <div className="w-16 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0">
                           {gallery.coverImage ? (
                             <img
@@ -344,7 +352,7 @@ export const DashboardOverview = observer(function DashboardOverview({ user }: D
                             Updated {gallery.updatedAt ? new Date(gallery.updatedAt).toLocaleDateString() : 'Unknown'}
                           </p>
                         </div>
-                      </div>
+                      </a>
                     ))}
                   </div>
                   

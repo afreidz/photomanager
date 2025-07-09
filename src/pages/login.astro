@@ -17,7 +17,7 @@ if (session) {
 
 // Check if this is the first user - if so, redirect to register
 const { data: registrationCheck } = await Astro.callAction(actions.invitations.checkRegistrationPermission, {});
-if (registrationCheck.allowed && registrationCheck.reason === 'First user registration') {
+if (registrationCheck?.allowed && registrationCheck?.reason === 'First user registration') {
   return Astro.redirect("/register");
 }
 ---
