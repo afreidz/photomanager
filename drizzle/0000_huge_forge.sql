@@ -1,4 +1,4 @@
-CREATE TABLE `account` (
+CREATE TABLE IF NOT EXISTS `account` (
 	`id` text PRIMARY KEY NOT NULL,
 	`userId` text NOT NULL,
 	`accountId` text NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `account` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `apiKey` (
+CREATE TABLE IF NOT EXISTS `apiKey` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`key` text NOT NULL,
@@ -29,8 +29,8 @@ CREATE TABLE `apiKey` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `apiKey_key_unique` ON `apiKey` (`key`);--> statement-breakpoint
-CREATE TABLE `gallery` (
+CREATE UNIQUE INDEX IF NOT EXISTS `apiKey_key_unique` ON `apiKey` (`key`);
+CREATE TABLE IF NOT EXISTS `gallery` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`description` text,
@@ -46,8 +46,8 @@ CREATE TABLE `gallery` (
 	CONSTRAINT "featured_must_be_public" CHECK("gallery"."isFeatured" = 0 OR "gallery"."isPublic" = 1)
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `gallery_slug_unique` ON `gallery` (`slug`);--> statement-breakpoint
-CREATE TABLE `galleryPhoto` (
+CREATE UNIQUE INDEX IF NOT EXISTS `gallery_slug_unique` ON `gallery` (`slug`);
+CREATE TABLE IF NOT EXISTS `galleryPhoto` (
 	`id` text PRIMARY KEY NOT NULL,
 	`galleryId` text NOT NULL,
 	`photoId` text NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `galleryPhoto` (
 	FOREIGN KEY (`photoId`) REFERENCES `photo`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `invitation` (
+CREATE TABLE IF NOT EXISTS `invitation` (
 	`id` text PRIMARY KEY NOT NULL,
 	`token` text NOT NULL,
 	`email` text,
@@ -71,8 +71,8 @@ CREATE TABLE `invitation` (
 	FOREIGN KEY (`createdByUserId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `invitation_token_unique` ON `invitation` (`token`);--> statement-breakpoint
-CREATE TABLE `photo` (
+CREATE UNIQUE INDEX IF NOT EXISTS `invitation_token_unique` ON `invitation` (`token`);
+CREATE TABLE IF NOT EXISTS `photo` (
 	`id` text PRIMARY KEY NOT NULL,
 	`title` text NOT NULL,
 	`description` text,
@@ -86,8 +86,8 @@ CREATE TABLE `photo` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `photo_imageId_unique` ON `photo` (`imageId`);--> statement-breakpoint
-CREATE TABLE `session` (
+CREATE UNIQUE INDEX IF NOT EXISTS `photo_imageId_unique` ON `photo` (`imageId`);
+CREATE TABLE IF NOT EXISTS `session` (
 	`id` text PRIMARY KEY NOT NULL,
 	`token` text NOT NULL,
 	`userId` text NOT NULL,
@@ -99,8 +99,8 @@ CREATE TABLE `session` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `session_token_unique` ON `session` (`token`);--> statement-breakpoint
-CREATE TABLE `setting` (
+CREATE UNIQUE INDEX IF NOT EXISTS `session_token_unique` ON `session` (`token`);
+CREATE TABLE IF NOT EXISTS `setting` (
 	`id` text PRIMARY KEY NOT NULL,
 	`key` text NOT NULL,
 	`value` text NOT NULL,
@@ -113,8 +113,8 @@ CREATE TABLE `setting` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `setting_key_unique` ON `setting` (`key`);--> statement-breakpoint
-CREATE TABLE `user` (
+CREATE UNIQUE INDEX IF NOT EXISTS `setting_key_unique` ON `setting` (`key`);
+CREATE TABLE IF NOT EXISTS `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text,
 	`email` text NOT NULL,
@@ -124,8 +124,8 @@ CREATE TABLE `user` (
 	`updatedAt` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
-CREATE TABLE `verification` (
+CREATE UNIQUE INDEX IF NOT EXISTS `user_email_unique` ON `user` (`email`);
+CREATE TABLE IF NOT EXISTS `verification` (
 	`id` text PRIMARY KEY NOT NULL,
 	`identifier` text NOT NULL,
 	`value` text NOT NULL,
