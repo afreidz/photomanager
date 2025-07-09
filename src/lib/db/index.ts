@@ -1,13 +1,10 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
-import { DATABASE_URL } from 'astro:env/server';
-import * as schema from './schema.js';
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+import { DATABASE_URL, DATABASE_TOKEN } from "astro:env/server";
 
-// Extract file path from DATABASE_URL
-let dbFilePath = DATABASE_URL;
-if (DATABASE_URL.startsWith('file:')) {
-  dbFilePath = DATABASE_URL.replace('file:', '');
-}
+const client = createClient({
+  url: DATABASE_URL!,
+  authToken: DATABASE_TOKEN,
+});
 
-const sqlite = new Database(dbFilePath);
-export const db = drizzle(sqlite, { schema });
+export const db = drizzle(client);
