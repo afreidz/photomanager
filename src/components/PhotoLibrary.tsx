@@ -10,13 +10,13 @@ import { getImageUrls } from '@/lib/image-client';
 import { photoStore } from '@/stores/PhotoStore';
 import { galleryStore } from '@/stores/GalleryStore';
 import { actions } from 'astro:actions';
-import { Trash2, Plus, Check, X } from 'lucide-react';
+import { Trash2, Plus, Check } from 'lucide-react';
 
 interface PhotoLibraryProps {
   cloudName?: string;
 }
 
-export const PhotoLibrary: React.FC<PhotoLibraryProps> = observer(({ cloudName = 'your-cloud-name' }) => {
+export const PhotoLibrary: React.FC<PhotoLibraryProps> = observer(({ cloudName: _ = 'your-cloud-name' }) => {
   const [search, setSearch] = useState('');
   const [openUpload, setOpenUpload] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState<Set<string>>(new Set());
@@ -75,7 +75,7 @@ export const PhotoLibrary: React.FC<PhotoLibraryProps> = observer(({ cloudName =
       });
 
       if (result.data) {
-        const { deleted, failed, total } = result.data;
+        const { deleted, failed, total: _ } = result.data;
         if (failed.length > 0) {
           alert(`Deleted ${deleted.length} photos. Failed to delete ${failed.length} photos.`);
         } else {
@@ -105,7 +105,7 @@ export const PhotoLibrary: React.FC<PhotoLibraryProps> = observer(({ cloudName =
       });
 
       if (result.data) {
-        const { added, skipped, total } = result.data;
+        const { added, skipped, total: _ } = result.data;
         if (skipped > 0) {
           alert(`Added ${added} photos to gallery. ${skipped} photos were already in the gallery.`);
         } else {

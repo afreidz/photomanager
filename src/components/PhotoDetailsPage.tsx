@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { getImageUrls, getResponsiveSrcSet, IMAGE_SIZES } from '@/lib/image-client';
+import { getImageUrls, IMAGE_SIZES } from '@/lib/image-client';
 import { Edit2, Save, X, Plus, Tag, Eye, FileText, Calendar, Camera, Trash2 } from 'lucide-react';
 import type { Photo } from '@/lib/db/schema';
 
@@ -178,7 +178,7 @@ const PhotoDetailsPage: React.FC<PhotoDetailsPageProps> = observer(({ photoId, o
   }
 
   const imageUrls = getImageUrls(photo.imageId);
-  const srcSet = getResponsiveSrcSet(photo.imageId);
+  // const srcSet = getResponsiveSrcSet(photo.imageId);
   const parsedTags = photo.tags ? JSON.parse(photo.tags) : [];
 
   return (

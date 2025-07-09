@@ -381,7 +381,7 @@ export const galleries = {
   getCounts: defineAction({
     accept: "json",
     input: z.object({}),
-    handler: async (input, context) => {
+    handler: async (_, context) => {
       const user = context.locals.user;
       if (!user) {
         throw new ActionError({

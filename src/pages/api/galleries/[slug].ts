@@ -3,7 +3,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "@/lib/db/index.js";
 import { gallery } from "@/lib/db/schema.js";
 
-export const GET: APIRoute = async ({ params, url, locals }) => {
+export const GET: APIRoute = async ({ params, url: _, locals: __ }) => {
   const { slug } = params;
   // API key validation is handled by middleware
 

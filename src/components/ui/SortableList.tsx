@@ -21,14 +21,14 @@ export function SortableList({ children, onReorder }: SortableListProps) {
     e.dataTransfer.setData('text/html', id);
   };
 
-  const handleDragEnter = (e: React.DragEvent, id: string) => {
+  const handleDragEnter = (_e: React.DragEvent, id: string) => {
     dragCounter.current++;
     if (draggedItem && draggedItem !== id) {
       setDragOverItem(id);
     }
   };
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = (_e: React.DragEvent) => {
     dragCounter.current--;
     if (dragCounter.current === 0) {
       setDragOverItem(null);

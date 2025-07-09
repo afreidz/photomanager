@@ -624,7 +624,7 @@ export const photos = {
   // Get total photo count
   getCount: defineAction({
     accept: "json",
-    handler: async (input, context) => {
+    handler: async (_, context) => {
       const user = context.locals.user;
       if (!user) {
         throw new ActionError({

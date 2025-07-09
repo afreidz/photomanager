@@ -18,7 +18,7 @@ export const settings = {
   getAll: defineAction({
     accept: "json",
     input: z.object({}),
-    handler: async (input, context) => {
+    handler: async (_, context) => {
       const user = context.locals.user;
       if (!user) {
         throw new ActionError({
@@ -46,7 +46,7 @@ export const settings = {
   getImageSizes: defineAction({
     accept: "json",
     input: z.object({}),
-    handler: async (input, context) => {
+    handler: async (_, context) => {
       const user = context.locals.user;
       if (!user) {
         throw new ActionError({
@@ -224,7 +224,7 @@ export const settings = {
   getPhotoCount: defineAction({
     accept: "json",
     input: z.object({}),
-    handler: async (input, context) => {
+    handler: async (_, context) => {
       const user = context.locals.user;
       if (!user) {
         throw new ActionError({

@@ -8,22 +8,20 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card } from '@/components/ui/card';
-import { Plus, Copy, Eye, EyeOff, Trash2, Key } from 'lucide-react';
+import { Plus, Copy, Eye, Trash2 } from 'lucide-react';
 
 interface ApiKeyWithKey extends Omit<ApiKey, 'keyHash'> {
   key: string;
 }
 
-interface ApiKeyData {
-  id: string;
-  name: string;
-  key: string;
-  isActive: boolean;
-  lastUsedAt: Date | null;
-  expiresAt: Date | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
-}
+// Interface for API key data structure
+// interface ApiKeyData {
+//   id: string;
+//   name: string;
+//   keyValue: string;
+//   lastUsed: Date | null;
+//   createdAt: Date;
+// }
 
 interface ApiKeyManagementProps {
   userId: string;
@@ -115,10 +113,11 @@ export default function ApiKeyManagement({ userId }: ApiKeyManagementProps) {
     }
   };
 
-  const formatDate = (date: Date | null) => {
-    if (!date) return 'Never expires';
-    return new Date(date).toLocaleDateString();
-  };
+  // Helper function for date formatting
+  // const formatDate = (date: Date | null) => {
+  //   if (!date) return 'Never';
+  //   return date.toLocaleDateString();
+  // };
 
   const copyToClipboard = async (text: string) => {
     try {

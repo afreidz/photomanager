@@ -8,7 +8,7 @@ interface AuthContainerProps {
   errorMessage?: string;
 }
 
-export function AuthContainer({ title, subtitle, children, errorMessage }: AuthContainerProps) {
+export function AuthContainer({ title, subtitle: _, children, errorMessage }: AuthContainerProps) {
   return (
     <div className="w-full max-w-md bg-card border border-border rounded-lg p-8 shadow-lg">
       <div className="text-center mb-8">

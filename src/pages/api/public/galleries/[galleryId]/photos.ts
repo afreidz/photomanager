@@ -3,7 +3,7 @@ import { db } from '@/lib/db/index.js';
 import { photo, galleryPhoto, gallery } from '@/lib/db/schema.js';
 import { eq, and } from 'drizzle-orm';
 
-export const GET: APIRoute = async ({ params, url }) => {
+export const GET: APIRoute = async ({ params, url: _ }) => {
   try {
     const galleryId = params.galleryId;
     if (!galleryId) {

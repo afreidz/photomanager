@@ -3,7 +3,7 @@ import { eq, desc, and } from "drizzle-orm";
 import { db } from "@/lib/db/index.js";
 import { gallery } from "@/lib/db/schema.js";
 
-export const GET: APIRoute = async ({ url, locals }) => {
+export const GET: APIRoute = async ({ url, locals: _ }) => {
   // API key validation is handled by middleware
   const searchParams = new URL(url).searchParams;
   const featured = searchParams.get("featured") === "true";

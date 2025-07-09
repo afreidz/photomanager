@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { SortableList, SortableItem } from '@/components/ui/SortableList';
 import { getImageUrls } from '@/lib/image-client';
 import { actions } from 'astro:actions';
@@ -22,7 +22,7 @@ interface PhotoWithSort extends Photo {
   sortOrder: number;
 }
 
-export const GalleryPhotoManager: React.FC<GalleryPhotoManagerProps> = ({ gallery, onPhotoRemoved, cloudName = 'your-cloud-name' }) => {
+export const GalleryPhotoManager: React.FC<GalleryPhotoManagerProps> = ({ gallery, onPhotoRemoved, cloudName: _ = 'your-cloud-name' }) => {
   const [photos, setPhotos] = useState<PhotoWithSort[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,10 +30,10 @@ export const GalleryPhotoManager: React.FC<GalleryPhotoManagerProps> = ({ galler
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoadingAvailable, setIsLoadingAvailable] = useState(false);
-  const [selectedPhotos, setSelectedPhotos] = useState<Set<string>>(new Set());
-  const [selectedAvailablePhotos, setSelectedAvailablePhotos] = useState<Set<string>>(new Set());
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
-  const [isBulkRemoving, setIsBulkRemoving] = useState(false);
+  // const [selectedPhotos, setSelectedPhotos] = useState<Set<string>>(new Set());
+  // const [selectedAvailablePhotos, setSelectedAvailablePhotos] = useState<Set<string>>(new Set());
+  // const [isSelectionMode, setIsSelectionMode] = useState(false);
+  // const [isBulkRemoving, setIsBulkRemoving] = useState(false);
 
   // Fetch photos for this gallery
   useEffect(() => {
@@ -160,57 +160,57 @@ export const GalleryPhotoManager: React.FC<GalleryPhotoManagerProps> = ({ galler
     }
   };
 
-  const handlePhotoSelect = (photoId: string, selected: boolean) => {
-    const newSelected = new Set(selectedPhotos);
-    if (selected) {
-      newSelected.add(photoId);
-    } else {
-      newSelected.delete(photoId);
-    }
-    setSelectedPhotos(newSelected);
-  };
+  // const handlePhotoSelect = (photoId: string, selected: boolean) => {
+  //   const newSelected = new Set(selectedPhotos);
+  //   if (selected) {
+  //     newSelected.add(photoId);
+  //   } else {
+  //     newSelected.delete(photoId);
+  //   }
+  //   setSelectedPhotos(newSelected);
+  // };
 
-  const handleSelectAll = () => {
-    if (selectedPhotos.size === photos.length) {
-      setSelectedPhotos(new Set());
-    } else {
-      setSelectedPhotos(new Set(photos.map(p => p.id)));
-    }
-  };
+  // const handleSelectAll = () => {
+  //   if (selectedPhotos.size === photos.length) {
+  //     setSelectedPhotos(new Set());
+  //   } else {
+  //     setSelectedPhotos(new Set(photos.map(p => p.id)));
+  //   }
+  // };
 
-  const handleBulkRemoveFromGallery = async () => {
-    if (selectedPhotos.size === 0) return;
-    
-    if (!confirm(`Are you sure you want to remove ${selectedPhotos.size} photo(s) from this gallery?`)) {
-      return;
-    }
+  // const handleBulkRemoveFromGallery = async () => {
+  //   if (selectedPhotos.size === 0) return;
+  //   
+  //   if (!confirm(`Are you sure you want to remove ${selectedPhotos.size} photo(s) from this gallery?`)) {
+  //     return;
+  //   }
 
-    setIsBulkRemoving(true);
-    try {
-      const result = await actions.photos.bulkRemoveFromGallery({
-        photoIds: Array.from(selectedPhotos),
-        galleryId: gallery.id
-      });
+  //   setIsBulkRemoving(true);
+  //   try {
+  //     const result = await actions.photos.bulkRemoveFromGallery({
+  //       photoIds: Array.from(selectedPhotos),
+  //       galleryId: gallery.id
+  //     });
 
-      if (result.data) {
-        alert(`Successfully removed ${result.data.removed} photos from gallery.`);
-        
-        // Refresh gallery photos and clear selection
-        const galleryResult = await actions.photos.getByGallery({ galleryId: gallery.id });
-        if (galleryResult.data) {
-          setPhotos(galleryResult.data.photos);
-        }
-        setSelectedPhotos(new Set());
-        setIsSelectionMode(false);
-        onPhotoRemoved?.();
-      }
-    } catch (error) {
-      alert('Failed to remove photos from gallery. Please try again.');
-      console.error('Bulk remove from gallery error:', error);
-    } finally {
-      setIsBulkRemoving(false);
-    }
-  };
+  //     if (result.data) {
+  //       alert(`Successfully removed ${result.data.removed} photos from gallery.`);
+  //       
+  //       // Refresh gallery photos and clear selection
+  //       const galleryResult = await actions.photos.getByGallery({ galleryId: gallery.id });
+  //       if (galleryResult.data) {
+  //         setPhotos(galleryResult.data.photos);
+  //       }
+  //       setSelectedPhotos(new Set());
+  //       setIsSelectionMode(false);
+  //       onPhotoRemoved?.();
+  //     }
+  //   } catch (error) {
+  //     alert('Failed to remove photos from gallery. Please try again.');
+  //     console.error('Bulk remove from gallery error:', error);
+  //   } finally {
+  //     setIsBulkRemoving(false);
+  //   }
+  // };
 
   if (isLoading) {
     return (

@@ -23,11 +23,11 @@ export interface ImageMetadata {
  */
 export async function processImageUpload(
   file: File,
-  userId: string
+  _userId: string
 ): Promise<ProcessedImage> {
   // Generate unique ID for this image
   const imageId = createId();
-  const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+  // const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
   
   // Convert File to Buffer
   const arrayBuffer = await file.arrayBuffer();

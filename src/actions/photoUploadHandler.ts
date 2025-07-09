@@ -1,13 +1,13 @@
 import type { Request, Response } from 'express';
 import multer from 'multer';
-import { photos } from './photos'; // Import the photos action
+// Import the photos action for future use
 
 // Configure multer for file upload
 const storage = multer.memoryStorage(); // Store files in memory as Buffers
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif/;
     const isValidType = allowedTypes.test(file.mimetype);
 

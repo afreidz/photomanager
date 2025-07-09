@@ -1,12 +1,11 @@
 import React from 'react';
-import { 
+import {
   Home, 
   FolderOpen, 
   ImageIcon, 
   Globe, 
   Eye, 
   FileImage, 
-  BarChart3, 
   Key, 
   Users, 
   Settings,
@@ -31,48 +30,48 @@ interface NavigationItem {
   isExpanded?: boolean;
 }
 
-const navigationItems: NavigationItem[] = [
-  {
-    label: 'Dashboard',
-    icon: Home,
-    href: '/dashboard'
-  },
-  {
-    label: 'Galleries',
-    icon: FolderOpen,
-    href: '/galleries',
-    count: 12,
-    hasSubmenu: true,
-    isExpanded: true,
-    submenu: [
-      {
-        label: 'All Galleries',
-        icon: ImageIcon,
-        href: '/galleries'
-      },
-      {
-        label: 'Featured Galleries',
-        icon: Globe,
-        href: '/galleries/featured'
-      },
-      {
-        label: 'Private Galleries',
-        icon: Eye,
-        href: '/galleries/private'
-      }
-    ]
-  },
-  {
-    label: 'Photo Library',
-    icon: FileImage,
-    href: '/photos',
-    count: 1200,
-    countSuffix: 'k'
-  }
-];
+// const navigationItems: NavigationItem[] = [
+//   {
+//     label: 'Dashboard',
+//     icon: Home,
+//     href: '/dashboard'
+//   },
+//   {
+//     label: 'Galleries',
+//     icon: FolderOpen,
+//     href: '/galleries',
+//     count: 12,
+//     hasSubmenu: true,
+//     isExpanded: true,
+//     submenu: [
+//       {
+//         label: 'All Galleries',
+//         icon: ImageIcon,
+//         href: '/galleries'
+//       },
+//       {
+//         label: 'Featured Galleries',
+//         icon: Globe,
+//         href: '/galleries/featured'
+//       },
+//       {
+//         label: 'Private Galleries',
+//         icon: Eye,
+//         href: '/galleries/private'
+//       }
+//     ]
+//   },
+//   {
+//     label: 'Photo Library',
+//     icon: FileImage,
+//     href: '/photos',
+//     count: 1200,
+//     countSuffix: 'k'
+//   }
+// ];
 
 // Create management items conditionally
-  const createManagementItems = (showInvitations: boolean): NavigationItem[] => {
+  const createManagementItems = (_showInvitations: boolean): NavigationItem[] => {
     const items: NavigationItem[] = [
       // {
       //   label: 'Analytics',
