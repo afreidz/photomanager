@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npm run debug:db",
+    "build": "astro build",
     "postbuild": "node scripts/migrate.js",
     "start": "node scripts/start.js",
     "start:direct": "node dist/server/entry.mjs",
