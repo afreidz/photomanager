@@ -74,11 +74,11 @@ const navigationItems: NavigationItem[] = [
 // Create management items conditionally
   const createManagementItems = (showInvitations: boolean): NavigationItem[] => {
     const items: NavigationItem[] = [
-      {
-        label: 'Analytics',
-        icon: BarChart3,
-        href: '/analytics'
-      },
+      // {
+      //   label: 'Analytics',
+      //   icon: BarChart3,
+      //   href: '/analytics'
+      // },
       {
         label: 'Users',
         icon: Users,
@@ -333,7 +333,7 @@ export function Sidebar({ currentPath = '', appCounts, user }: SidebarProps) {
       </div>
 
       {/* User Menu */}
-      <div className="border-t border-border p-4">
+      <div className="border-t border-border">
         <UserMenu user={user} />
       </div>
     </div>

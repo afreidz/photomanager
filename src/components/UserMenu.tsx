@@ -45,7 +45,7 @@ export function UserMenu({ user }: UserMenuProps) {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="w-full justify-between h-auto p-3 hover:bg-accent"
+          className="w-full rounded-none justify-between h-auto p-3 hover:bg-accent"
         >
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground flex-shrink-0">

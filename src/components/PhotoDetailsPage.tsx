@@ -4,9 +4,7 @@ import { actions } from 'astro:actions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { getImageUrls, getResponsiveSrcSet, IMAGE_SIZES } from '@/lib/image-client';
 import { Edit2, Save, X, Plus, Tag, Eye, FileText, Calendar, Camera, Trash2 } from 'lucide-react';
 import type { Photo } from '@/lib/db/schema';
@@ -327,7 +325,7 @@ const PhotoDetailsPage: React.FC<PhotoDetailsPageProps> = observer(({ photoId, o
               <div className="space-y-2">
                 <Textarea
                   value={editDescription}
-                  onChange={(e) => setEditDescription(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEditDescription(e.target.value)}
                   placeholder="Add a description..."
                   rows={4}
                   className="w-full"

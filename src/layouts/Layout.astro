@@ -10,6 +10,11 @@ export interface Props {
 
 const { title, currentPath } = Astro.props;
 const user = Astro.locals.user;
+
+// Redirect to login if no user (this should not happen due to middleware)
+if (!user) {
+  return Astro.redirect('/login');
+}
 ---
 
 <!DOCTYPE html>
@@ -25,7 +30,12 @@ const user = Astro.locals.user;
   <body class="antialiased">
     <div class="flex h-screen bg-background">
       <!-- Sidebar -->
-      <DynamicSidebar currentPath={currentPath} user={user} client:load />
+      <DynamicSidebar currentPath={currentPath} user={{
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image || undefined
+      }} client:load />
       
       <!-- Main Content -->
       <main class="flex-1 overflow-auto">

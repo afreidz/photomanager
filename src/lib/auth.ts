@@ -1,10 +1,8 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { eq, and, gt } from 'drizzle-orm';
 import { db } from './db/index.js';
 import * as schema from './db/schema.js';
 import {
-  DATABASE_URL,
   BETTER_AUTH_SECRET,
   BETTER_AUTH_URL,
   GOOGLE_CLIENT_ID,
