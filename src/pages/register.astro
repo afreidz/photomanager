@@ -34,6 +34,8 @@ if (Astro.url.searchParams.has("error")) {
     errorMessage={errorMessage}
     registrationAllowed={registrationCheck.allowed}
     registrationReason={registrationCheck.reason}
+    invitation={registrationCheck.invitation}
+    token={token}
     client:load
   />
 </AuthLayout>

@@ -1,6 +1,7 @@
 ---
 import AuthLayout from '../layouts/AuthLayout.astro';
 import { LoginForm } from '@/components/LoginForm';
+import { actions } from 'astro:actions';
 
 // Server-side check if user is already logged in
 import { auth } from "../lib/auth.js";
@@ -12,6 +13,12 @@ const session = await auth.api.getSession({
 // If already logged in, redirect to dashboard
 if (session) {
   return Astro.redirect("/dashboard");
+}
+
+// Check if this is the first user - if so, redirect to register
+const { data: registrationCheck } = await Astro.callAction(actions.invitations.checkRegistrationPermission, {});
+if (registrationCheck.allowed && registrationCheck.reason === 'First user registration') {
+  return Astro.redirect("/register");
 }
 ---
 

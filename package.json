@@ -16,7 +16,9 @@
     "db:studio": "drizzle-kit studio",
     "db:migrate": "drizzle-kit migrate",
     "migrate": "node scripts/migrate.js",
-    "debug:db": "node scripts/debug-db.js"
+    "debug:db": "node scripts/debug-db.js",
+    "test:first-user": "node scripts/test-first-user.js",
+    "restore:db": "node scripts/restore-db.js"
   },
   "dependencies": {
     "@astrojs/node": "^9.3.0",
