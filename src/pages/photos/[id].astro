@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import PhotoDetailsPage from '@/components/PhotoDetailsPage';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+if (!id) {
+  throw new Error('Photo ID is required');
+}
+---
+
+<Layout title="Photo Details">
+  <PhotoDetailsPage 
+    photoId={id} 
+    client:load 
+  />
+</Layout>

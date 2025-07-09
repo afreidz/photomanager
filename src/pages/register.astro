@@ -1,0 +1,39 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import { RegisterForm } from '@/components/RegisterForm';
+import { auth } from "../lib/auth.js";
+import { actions } from 'astro:actions';
+
+// Server-side check if user is already logged in
+const session = await auth.api.getSession({
+  headers: Astro.request.headers,
+});
+
+// If already logged in, redirect to dashboard
+if (session) {
+  return Astro.redirect("/dashboard");
+}
+
+// Check registration permission
+const token = Astro.url.searchParams.get("token");
+const { data: registrationCheck, error: registrationError } = await Astro.callAction(actions.invitations.checkRegistrationPermission, { token: token || undefined });
+
+if (registrationError) {
+  console.error('Registration check error:', registrationError);
+  throw new Error('Failed to check registration permission');
+}
+
+let errorMessage = "";
+if (Astro.url.searchParams.has("error")) {
+  errorMessage = "Registration error: " + Astro.url.searchParams.get("error");
+}
+---
+
+<AuthLayout title="Register - Photography CMS">
+  <RegisterForm
+    errorMessage={errorMessage}
+    registrationAllowed={registrationCheck.allowed}
+    registrationReason={registrationCheck.reason}
+    client:load
+  />
+</AuthLayout>

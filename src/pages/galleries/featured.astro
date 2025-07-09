@@ -1,0 +1,14 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { FeaturedGalleryManagement } from '@/components/FeaturedGalleryManagement.tsx';
+
+// Get current user
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Featured Galleries - Photography CMS" currentPath="/galleries/featured">
+  <FeaturedGalleryManagement client:load />
+</Layout>

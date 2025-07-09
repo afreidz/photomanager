@@ -1,0 +1,58 @@
+
+> photography-cms@1.0.0 site:dev /Users/andy.freidenfelds/Code/Personal/photography-cms
+> pnpm --filter @photographer-cms/site dev
+
+
+> @photographer-cms/site@1.0.0 dev /Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site
+> next dev
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.30[39m[22m
+  - Local:        http://localhost:3000
+
+ [32m[1m✓[22m[39m Starting...
+ [33m[1m⚠[22m[39m Invalid next.config.js options detected: 
+ [33m[1m⚠[22m[39m     Unrecognized key(s) in object: 'appDir' at "experimental"
+ [33m[1m⚠[22m[39m See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ [32m[1m✓[22m[39m Ready in 1980ms
+Error: ENOENT: no such file or directory, scandir '/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'
+[90m    at async Object.readdir (node:internal/fs/promises:956:18)[39m
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:32:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:67:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:41:26 {
+  errno: [33m-2[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'scandir'[39m,
+  path: [32m'/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'[39m
+}
+ [31m[1m⨯[22m[39m unhandledRejection: Error: ENOENT: no such file or directory, scandir '/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'
+[90m    at async Object.readdir (node:internal/fs/promises:956:18)[39m
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:32:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:67:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:41:26 {
+  errno: [33m-2[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'scandir'[39m,
+  path: [32m'/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'[39m
+}
+ [31m[1m⨯[22m[39m unhandledRejection: Error: ENOENT: no such file or directory, scandir '/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'
+[90m    at async Object.readdir (node:internal/fs/promises:956:18)[39m
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/lib/recursive-readdir.js:32:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (/Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:67:25)
+    at async /Users/andy.freidenfelds/Code/Personal/photography-cms/node_modules/[4m.pnpm[24m/next@14.2.30_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/[4mnext[24m/dist/server/future/route-matcher-providers/dev/helpers/file-reader/batched-file-reader.js:41:26 {
+  errno: [33m-2[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'scandir'[39m,
+  path: [32m'/Users/andy.freidenfelds/Code/Personal/photography-cms/packages/site/src/app'[39m
+}

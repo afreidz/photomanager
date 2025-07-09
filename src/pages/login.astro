@@ -1,0 +1,20 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import { LoginForm } from '@/components/LoginForm';
+
+// Server-side check if user is already logged in
+import { auth } from "../lib/auth.js";
+
+const session = await auth.api.getSession({
+  headers: Astro.request.headers,
+});
+
+// If already logged in, redirect to dashboard
+if (session) {
+  return Astro.redirect("/dashboard");
+}
+---
+
+<AuthLayout title="Login - Photography CMS">
+  <LoginForm client:load />
+</AuthLayout>

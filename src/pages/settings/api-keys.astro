@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { auth } from '@/lib/auth.js';
+import ApiKeyManagement from '@/components/ApiKeyManagement.tsx';
+
+const session = await auth.api.getSession({
+  headers: Astro.request.headers,
+});
+
+if (!session) {
+  return Astro.redirect('/login');
+}
+
+const user = session.user;
+---
+
+<Layout title="API Key Management">
+  <ApiKeyManagement userId={user.id} client:load />
+</Layout>

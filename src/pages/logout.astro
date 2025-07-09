@@ -1,0 +1,19 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import { LogoutForm } from '@/components/LogoutForm';
+import { auth } from "../lib/auth.js";
+
+// Server-side check if user is logged in
+const session = await auth.api.getSession({
+  headers: Astro.request.headers,
+});
+
+// If not logged in, redirect to login
+if (!session) {
+  return Astro.redirect("/login");
+}
+---
+
+<AuthLayout title="Logout - Photography CMS">
+  <LogoutForm client:load />
+</AuthLayout>

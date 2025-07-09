@@ -1,0 +1,38 @@
+---
+import '@/styles/globals.css';
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Photography Portfolio Management System" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <slot />
+  </body>
+</html>

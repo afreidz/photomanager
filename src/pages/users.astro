@@ -1,0 +1,59 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { actions } from 'astro:actions';
+import { UserManagement } from '@/components/UserManagement';
+
+// This page is protected by middleware
+const currentUser = Astro.locals.user;
+
+// Check if user is admin using action
+const { data: adminData, error: adminError } = await Astro.callAction(
+  actions.users.isCurrentUserAdmin,
+  {}
+);
+
+if (adminError || !adminData?.isAdmin) {
+  return Astro.redirect('/dashboard');
+}
+
+// Only admin users can see invitations
+let activeInvitations: any[] = [];
+if (adminData?.isAdmin) {
+  // Fetch all active invitations using action
+  const { data: invitationsData, error: invitationsError } =
+    await Astro.callAction(actions.invitations.list, {});
+
+  if (invitationsError) {
+    console.error(invitationsError);
+    throw new Error('Failed to fetch invitations');
+  }
+
+  // Filter to only show active invitations
+  activeInvitations = invitationsData.invitations.filter(
+    (invite) => !invite.isUsed
+  );
+}
+
+// Fetch all registered users using action
+const { data: usersData, error: usersError } = await Astro.callAction(
+  actions.users.list,
+  {}
+);
+
+if (usersError) {
+  console.error(usersError);
+  throw new Error('Failed to fetch users');
+}
+
+const allUsers = usersData.users;
+const isCurrentUserAdmin = adminData?.isAdmin || false;
+---
+<Layout title="User Management - Photography CMS" currentPath="/users">
+  <UserManagement
+    users={allUsers}
+    invitations={activeInvitations}
+    currentUserId={currentUser?.id || ''}
+    isCurrentUserAdmin={isCurrentUserAdmin}
+    client:load
+  />
+</Layout>

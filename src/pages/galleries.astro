@@ -1,0 +1,14 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { GalleryManagement } from '@/components/GalleryManagement.tsx';
+
+// Get current user
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Galleries - Photography CMS" currentPath="/galleries">
+  <GalleryManagement client:load />
+</Layout>

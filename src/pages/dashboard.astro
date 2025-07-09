@@ -1,0 +1,26 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { markInvitationAsUsed } from '../lib/invitation-validator.js';
+import { DashboardOverview } from '@/components/DashboardOverview.tsx';
+
+// This page is protected by middleware
+const user = Astro.locals.user;
+
+// Redirect to login if no user (this should not happen due to middleware)
+if (!user) {
+  return Astro.redirect('/login');
+}
+
+// Check if user came from registration with invitation token
+const token = Astro.url.searchParams.get('token');
+if (token && user) {
+  // Mark invitation as used
+  await markInvitationAsUsed(token, user.id);
+  // Redirect to clean URL
+  return Astro.redirect('/dashboard');
+}
+---
+
+<Layout title="Dashboard - PhotoManager" currentPath="/dashboard">
+  <DashboardOverview client:load user={user} />
+</Layout>

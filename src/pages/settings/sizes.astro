@@ -1,0 +1,14 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { SettingsManagement } from '@/components/SettingsManagement.tsx';
+
+// Get current user
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Image Sizes - Photography CMS" currentPath="/settings/sizes">
+  <SettingsManagement client:load />
+</Layout>

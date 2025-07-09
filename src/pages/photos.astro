@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { PhotoLibrary } from '@/components/PhotoLibrary.tsx';
+---
+
+<Layout title="Photo Library - Photography CMS" currentPath="/photos">
+  <PhotoLibrary client:load />
+</Layout>

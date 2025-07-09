@@ -1,0 +1,39 @@
+---
+import { DynamicSidebar } from '@/components/DynamicSidebar';
+import { StoreInitializer } from '@/components/StoreInitializer';
+import '@/styles/globals.css';
+
+export interface Props {
+  title: string;
+  currentPath?: string;
+}
+
+const { title, currentPath } = Astro.props;
+const user = Astro.locals.user;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Photography Portfolio Management System" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="antialiased">
+    <div class="flex h-screen bg-background">
+      <!-- Sidebar -->
+      <DynamicSidebar currentPath={currentPath} user={user} client:load />
+      
+      <!-- Main Content -->
+      <main class="flex-1 overflow-auto">
+        <slot />
+      </main>
+      
+      <!-- Store Initializer -->
+      <StoreInitializer client:load />
+    </div>
+  </body>
+</html>

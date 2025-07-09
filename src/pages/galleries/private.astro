@@ -1,0 +1,14 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { PrivateGalleryManagement } from '@/components/PrivateGalleryManagement.tsx';
+
+// Get current user
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Private Galleries - Photography CMS" currentPath="/galleries/private">
+  <PrivateGalleryManagement client:load />
+</Layout>
