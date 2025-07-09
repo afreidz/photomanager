@@ -3,9 +3,9 @@ import type { Config } from 'drizzle-kit';
 export default {
   schema: './src/lib/db/schema.ts',
   out: './drizzle',
-  dialect: 'sqlite',
+  dialect: 'turso',
   dbCredentials: {
     url: process.env.DATABASE_URL!,
-    token: process.env.DATABASE_TOKEN,
+    authToken: process.env.DATABASE_TOKEN,
   },
 } satisfies Config;
