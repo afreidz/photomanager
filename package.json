@@ -4,16 +4,19 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "postbuild": "npm run db:generate && npm run db:migrate",
-    "start": "node dist/server/entry.mjs",
+    "build": "astro build && npm run debug:db",
+    "postbuild": "node scripts/migrate.js",
+    "start": "node scripts/start.js",
+    "start:direct": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "migrate": "node scripts/migrate.js",
+    "debug:db": "node scripts/debug-db.js"
   },
   "dependencies": {
     "@astrojs/node": "^9.3.0",
