@@ -36,6 +36,6 @@ if (Astro.url.searchParams.has("error")) {
     registrationReason={registrationCheck.reason}
     invitation={registrationCheck.invitation}
     token={token}
-    client:load
+    client:only="react"
   />
 </AuthLayout>

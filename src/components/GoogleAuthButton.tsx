@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createAuthClient } from 'better-auth/client';
+import { signIn } from '../lib/auth-client';
 import { Loader2 } from 'lucide-react';
 
 interface GoogleAuthButtonProps {
@@ -10,10 +10,6 @@ interface GoogleAuthButtonProps {
 
 export function GoogleAuthButton({ mode, callbackURL = '/dashboard', onError }: GoogleAuthButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
-
-  const authClient = createAuthClient({
-    baseURL: typeof window !== 'undefined' ? window.location.origin : '',
-  });
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -28,7 +24,7 @@ export function GoogleAuthButton({ mode, callbackURL = '/dashboard', onError }: 
         }
       }
 
-      await authClient.signIn.social({
+      await signIn.social({
         provider: 'google',
         callbackURL: finalCallbackURL
       });

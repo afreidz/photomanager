@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { createAuthClient } from 'better-auth/client';
+import { signOut } from '../lib/auth-client';
 
 interface UserMenuProps {
   user: {
@@ -25,12 +25,8 @@ export function UserMenu({ user }: UserMenuProps) {
     try {
       setIsLoading(true);
       
-      const authClient = createAuthClient({
-        baseURL: window.location.origin,
-      });
-
-      // Use better-auth client to sign out
-      await authClient.signOut();
+      // Use shared auth client to sign out
+      await signOut();
       
       // Redirect to login page
       window.location.href = '/login';

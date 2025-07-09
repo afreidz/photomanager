@@ -1,7 +1,8 @@
 import { createAuthClient } from "better-auth/client";
 
+// Simple auth client that will only be used on the client side
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:4321", // This should match your BETTER_AUTH_URL
+  baseURL: window.location.origin,
 });
 
 export const { signIn, signOut, getSession } = authClient;

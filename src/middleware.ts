@@ -1,8 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 import { auth } from "./lib/auth.js";
 import { validateApiKey } from "./lib/api-middleware.js";
+import { isUserInvited } from "./lib/invitation-validator.js";
 
-const publicRoutes = ["/login", "/register", "/api/auth"];
+const publicRoutes = ["/login", "/register", "/logout", "/api/auth"];
 const publicApiRoutes = ["/api/auth", "/api/public"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -51,6 +52,22 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (!sessionData) {
     // Redirect to login if not authenticated
     return context.redirect("/login");
+  }
+  
+  // Check if user is properly invited to the system
+  const userInvited = await isUserInvited(sessionData.user.id);
+  if (!userInvited) {
+    // User has a valid session but was not invited - sign them out and redirect
+    // This handles cases where users sign up via OAuth without an invitation
+    try {
+      await auth.api.signOut({
+        headers: context.request.headers,
+      });
+    } catch (error) {
+      console.error('Error signing out user:', error);
+      // Continue with redirect even if signOut fails
+    }
+    return context.redirect("/login?error=not_invited");
   }
   
   // Add user to locals for use in pages

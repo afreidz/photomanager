@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from './db/index.js';
 import * as schema from './db/schema.js';
+import { isFirstUser } from './invitation-validator.js';
 import {
   BETTER_AUTH_SECRET,
   BETTER_AUTH_URL,
@@ -30,8 +31,8 @@ export const auth = betterAuth({
   },
   secret: BETTER_AUTH_SECRET,
   baseURL: BETTER_AUTH_URL,
-  // TODO: Fix better-auth hook syntax - temporarily disabled
-  // We'll implement invitation validation differently for now
+  // Remove hooks for now to fix logout issues
+  // We'll rely on middleware for invitation checking instead
 });
 
 export type Session = typeof auth.$Infer.Session;

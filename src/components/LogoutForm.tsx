@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AuthContainer } from './AuthContainer';
-import { createAuthClient } from 'better-auth/client';
+import { signOut } from '../lib/auth-client';
 
 export function LogoutForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,12 +9,8 @@ export function LogoutForm() {
     try {
       setIsLoading(true);
       
-      const authClient = createAuthClient({
-        baseURL: window.location.origin,
-      });
-
-      // Use better-auth client to sign out
-      await authClient.signOut();
+      // Use shared auth client to sign out
+      await signOut();
       
       // Redirect to login page
       window.location.href = '/login';

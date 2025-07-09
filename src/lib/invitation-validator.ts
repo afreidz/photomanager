@@ -110,3 +110,48 @@ export async function shouldAllowRegistration(invitationToken?: string): Promise
     };
   }
 }
+
+/**
+ * Check if a user has been properly invited to the system
+ * This is used by middleware to ensure only invited users can access the app
+ * 
+ * Allows access for:
+ * - First user (system initialization)
+ * - Users with used invitations (new invitation-based users)
+ * - Existing users in database (legacy users before invitation system)
+ */
+export async function isUserInvited(userId: string): Promise<boolean> {
+  try {
+    // Always allow first user
+    if (await isFirstUser()) {
+      return true;
+    }
+
+    // Check if user exists in the database (for existing users before invitation system)
+    const existingUser = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, userId))
+      .limit(1);
+
+    // If user doesn't exist, they definitely aren't invited
+    if (existingUser.length === 0) {
+      return false;
+    }
+
+    // Check if user has been associated with any invitation
+    const usedInvitations = await db
+      .select()
+      .from(invitation)
+      .where(eq(invitation.usedByUserId, userId))
+      .limit(1);
+
+    // Allow access if:
+    // 1. User has a used invitation (new invitation-based users)
+    // 2. User exists in database (existing users before invitation system)
+    return usedInvitations.length > 0 || existingUser.length > 0;
+  } catch (error) {
+    console.error('Error checking if user is invited:', error);
+    return false;
+  }
+}
