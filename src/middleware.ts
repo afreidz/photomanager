@@ -1,10 +1,11 @@
 import { defineMiddleware } from "astro:middleware";
 import { auth } from "./lib/auth.js";
 import { validateApiKey } from "./lib/api-middleware.js";
-import { isUserInvited } from "./lib/invitation-validator.js";
+import { isUserInvited, isUserAdmin } from "./lib/invitation-validator.js";
 
 const publicRoutes = ["/login", "/register", "/logout", "/api/auth"];
 const publicApiRoutes = ["/api/auth", "/api/public"];
+const adminRoutes = ["/users", "/settings"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
@@ -68,6 +69,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
       // Continue with redirect even if signOut fails
     }
     return context.redirect("/login?error=not_invited");
+  }
+  
+  // Check if user is trying to access admin routes
+  if (adminRoutes.some(route => pathname.startsWith(route))) {
+    const userIsAdmin = await isUserAdmin(sessionData.user.id);
+    if (!userIsAdmin) {
+      // Non-admin user trying to access admin route - redirect to dashboard
+      return context.redirect("/dashboard");
+    }
   }
   
   // Add user to locals for use in pages

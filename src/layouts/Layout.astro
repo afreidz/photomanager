@@ -1,6 +1,7 @@
 ---
 import { DynamicSidebar } from '@/components/DynamicSidebar';
 import { StoreInitializer } from '@/components/StoreInitializer';
+import { isUserAdmin } from '@/lib/invitation-validator';
 import '@/styles/globals.css';
 
 export interface Props {
@@ -15,6 +16,9 @@ const user = Astro.locals.user;
 if (!user) {
   return Astro.redirect('/login');
 }
+
+// Check if user is admin
+const userIsAdmin = await isUserAdmin(user.id);
 ---
 
 <!DOCTYPE html>
@@ -34,7 +38,8 @@ if (!user) {
         id: user.id,
         name: user.name,
         email: user.email,
-        image: user.image || undefined
+        image: user.image || undefined,
+        isAdmin: userIsAdmin
       }} client:only="react" />
       
       <!-- Main Content -->

@@ -125,6 +125,7 @@ interface SidebarProps {
     name: string;
     email: string;
     image?: string;
+    isAdmin?: boolean;
   };
 }
 
@@ -307,15 +308,17 @@ export function Sidebar({ currentPath = '', appCounts, user }: SidebarProps) {
           {dynamicNavigationItems.map(item => renderNavigationItem(item))}
         </nav>
 
-        {/* Management Section */}
-        <div className="mt-8">
-          <h3 className="mb-3 px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Management
-          </h3>
-          <nav className="space-y-1">
-            {createManagementItems(false).map(item => renderNavigationItem(item))}
-          </nav>
-        </div>
+        {/* Management Section - Admin Only */}
+        {user.isAdmin && (
+          <div className="mt-8">
+            <h3 className="mb-3 px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Management
+            </h3>
+            <nav className="space-y-1">
+              {createManagementItems(false).map(item => renderNavigationItem(item))}
+            </nav>
+          </div>
+        )}
       </div>
 
       {/* Storage Footer */}

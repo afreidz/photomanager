@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `isAdmin` integer DEFAULT false NOT NULL;

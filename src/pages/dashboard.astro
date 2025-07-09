@@ -1,6 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { markInvitationAsUsed } from '../lib/invitation-validator.js';
+import { markInvitationAsUsed, setFirstUserAsAdmin } from '../lib/invitation-validator.js';
 import { DashboardOverview } from '@/components/DashboardOverview.tsx';
 
 // This page is protected by middleware
@@ -16,9 +16,14 @@ const token = Astro.url.searchParams.get('token');
 if (token && user) {
   // Mark invitation as used
   await markInvitationAsUsed(token, user.id);
+  // Set first user as admin
+  await setFirstUserAsAdmin(user.id);
   // Redirect to clean URL
   return Astro.redirect('/dashboard');
 }
+
+// Also check for first user on regular dashboard access
+await setFirstUserAsAdmin(user.id);
 ---
 
 <Layout title="Dashboard - PhotoManager" currentPath="/dashboard">

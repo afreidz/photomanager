@@ -82,7 +82,7 @@ export async function shouldAllowRegistration(invitationToken?: string): Promise
   try {
     // Always allow first user
     if (await isFirstUser()) {
-      return { allowed: true };
+      return { allowed: true, reason: 'First user registration' };
     }
 
     // For subsequent users, require invitation
@@ -108,6 +108,47 @@ export async function shouldAllowRegistration(invitationToken?: string): Promise
       allowed: false, 
       reason: 'Error validating registration permission' 
     };
+  }
+}
+
+/**
+ * Check if a user is an admin
+ */
+export async function isUserAdmin(userId: string): Promise<boolean> {
+  try {
+    const userRecord = await db
+      .select({ isAdmin: user.isAdmin })
+      .from(user)
+      .where(eq(user.id, userId))
+      .limit(1);
+
+    return userRecord.length > 0 && userRecord[0].isAdmin;
+  } catch (error) {
+    console.error('Error checking if user is admin:', error);
+    return false;
+  }
+}
+
+/**
+ * Set the first user as admin when they register
+ */
+export async function setFirstUserAsAdmin(userId: string): Promise<boolean> {
+  try {
+    // Only set admin if this is the first user
+    const userCount = await db.select().from(user).limit(2);
+    
+    if (userCount.length === 1) {
+      await db
+        .update(user)
+        .set({ isAdmin: true })
+        .where(eq(user.id, userId));
+      return true;
+    }
+    
+    return false;
+  } catch (error) {
+    console.error('Error setting first user as admin:', error);
+    return false;
   }
 }
 
