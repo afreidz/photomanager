@@ -57,13 +57,19 @@ if (!existsSync(dbFilePath)) {
 }
 
 try {
-  // Run drizzle generate
-  console.log('Running drizzle generate...');
-  execSync('npx drizzle-kit generate', { stdio: 'inherit' });
-  
-  // Run drizzle migrate
-  console.log('Running drizzle migrate...');
-  execSync('npx drizzle-kit migrate', { stdio: 'inherit' });
+  // Check if we're using Turso/LibSQL
+  if (DATABASE_URL.includes('libsql') || DATABASE_URL.includes('turso')) {
+    console.log('Detected Turso/LibSQL database, using custom migration script...');
+    execSync('node scripts/migrate-turso.js', { stdio: 'inherit' });
+  } else {
+    // Run drizzle generate
+    console.log('Running drizzle generate...');
+    execSync('npx drizzle-kit generate', { stdio: 'inherit' });
+    
+    // Run drizzle migrate
+    console.log('Running drizzle migrate...');
+    execSync('npx drizzle-kit migrate', { stdio: 'inherit' });
+  }
   
   console.log('Database migration completed successfully!');
 } catch (error) {

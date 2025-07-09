@@ -16,6 +16,7 @@
     "db:studio": "drizzle-kit studio",
     "db:migrate": "drizzle-kit migrate",
     "migrate": "node scripts/migrate.js",
+    "migrate:turso": "node scripts/migrate-turso.js",
     "debug:db": "node scripts/debug-db.js",
     "test:first-user": "node scripts/test-first-user.js",
     "restore:db": "node scripts/restore-db.js"
