@@ -122,6 +122,12 @@ export async function isUserAdmin(userId: string): Promise<boolean> {
       .where(eq(user.id, userId))
       .limit(1);
 
+    if (!userRecord.length) {
+      console.log("Unable to find admin record");
+    } else if (!userRecord[0].isAdmin) {
+      console.log("User is not admin", userRecord[0].isAdmin);
+    }
+
     return userRecord.length > 0 && userRecord[0].isAdmin;
   } catch (error) {
     console.error('Error checking if user is admin:', error);
