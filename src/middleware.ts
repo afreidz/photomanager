@@ -72,13 +72,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
   
   // Check if user is trying to access admin routes
-  if (adminRoutes.some(route => pathname.startsWith(route))) {
-    const userIsAdmin = await isUserAdmin(sessionData.user.id);
-    if (!userIsAdmin) {
-      // Non-admin user trying to access admin route - redirect to dashboard
-      return context.redirect("/dashboard");
-    }
-  }
+  // if (adminRoutes.some(route => pathname.startsWith(route))) {
+  //   const userIsAdmin = await isUserAdmin(sessionData.user.id);
+  //   if (!userIsAdmin) {
+  //     // Non-admin user trying to access admin route - redirect to dashboard
+  //     return context.redirect("/dashboard");
+  //   }
+  // }
   
   // Add user to locals for use in pages
   context.locals.user = sessionData.user;
