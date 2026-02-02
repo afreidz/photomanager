@@ -74,10 +74,10 @@ export const gallery = sqliteTable('gallery', {
   userId: text('userId').notNull().references(() => user.id, { onDelete: 'cascade' }),
   createdAt: integer('createdAt', { mode: 'timestamp' }).$defaultFn(() => new Date()),
   updatedAt: integer('updatedAt', { mode: 'timestamp' }).$defaultFn(() => new Date()),
-}, (table) => ({
+}, (table) => [
   // Constraint: featured galleries must be public
-  featuredMustBePublic: check('featured_must_be_public', sql`${table.isFeatured} = 0 OR ${table.isPublic} = 1`),
-}));
+  check('featured_must_be_public', sql`${table.isFeatured} = 0 OR ${table.isPublic} = 1`),
+]);
 
 export const photo = sqliteTable('photo', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
