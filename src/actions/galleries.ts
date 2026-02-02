@@ -324,19 +324,10 @@ export const galleries = {
       offset: z.number().optional().default(0),
     }),
     handler: async (input, context) => {
-      const user = context.locals.user;
-      if (!user) {
-        throw new ActionError({
-          code: "UNAUTHORIZED",
-          message: "You must be logged in to view galleries"
-        });
-      }
-
       try {
-        // First get galleries
+        // Get all galleries (remove user restriction)
         const galleries = await db.select()
           .from(gallery)
-          .where(eq(gallery.userId, user.id))
           .orderBy(desc(gallery.updatedAt))
           .limit(input.limit)
           .offset(input.offset);
@@ -353,12 +344,10 @@ export const galleries = {
               .where(eq(galleryPhoto.galleryId, gal.id))
               .orderBy(galleryPhoto.sortOrder)
               .limit(1);
-            
             // Get accurate photo count for this gallery
             const [photoCountResult] = await db.select({ count: sql`COUNT(*)` })
               .from(galleryPhoto)
               .where(eq(galleryPhoto.galleryId, gal.id));
-            
             return {
               ...gal,
               photoCount: Number(photoCountResult.count),
@@ -366,7 +355,6 @@ export const galleries = {
             };
           })
         );
-
         return { galleries: galleriesWithCovers };
       } catch (error) {
         throw new ActionError({

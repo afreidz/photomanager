@@ -187,17 +187,9 @@ export const photos = {
       galleryId: z.string().optional(),
     }),
     handler: async (input, context) => {
-      const user = context.locals.user;
-      if (!user) {
-        throw new ActionError({
-          code: "UNAUTHORIZED",
-          message: "You must be logged in to view photos",
-        });
-      }
-
       try {
         let query = db.select().from(photo);
-        let conditions = [eq(photo.userId, user.id)];
+        let conditions: any[] = [];
 
         if (input.search) {
           conditions.push(
@@ -225,15 +217,12 @@ export const photos = {
           })
             .from(photo)
             .innerJoin(galleryPhoto, eq(photo.id, galleryPhoto.photoId)) as any;
-          
           conditions.push(eq(galleryPhoto.galleryId, input.galleryId));
         }
 
-        const photos = await query
-          .where(and(...conditions))
-          .orderBy(desc(photo.createdAt))
-          .limit(input.limit)
-          .offset(input.offset);
+        const photos = conditions.length > 0
+          ? await query.where(and(...conditions)).orderBy(desc(photo.createdAt)).limit(input.limit).offset(input.offset)
+          : await query.orderBy(desc(photo.createdAt)).limit(input.limit).offset(input.offset);
 
         return { photos };
       } catch (error) {
