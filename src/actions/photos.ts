@@ -97,16 +97,14 @@ export const photos = {
           message: "You must be logged in to update photos",
         });
       }
-
-      // Check if photo exists and belongs to user
+      // Check if photo exists
       const existingPhoto = await db.select().from(photo)
-        .where(and(eq(photo.id, input.id), eq(photo.userId, user.id)))
+        .where(eq(photo.id, input.id))
         .limit(1);
-
       if (existingPhoto.length === 0) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Photo not found or you don't have permission to edit it",
+          message: "Photo not found",
         });
       }
 
@@ -146,16 +144,14 @@ export const photos = {
           message: "You must be logged in to delete photos",
         });
       }
-
-      // Check if photo exists and belongs to user
+      // Check if photo exists
       const existingPhoto = await db.select().from(photo)
-        .where(and(eq(photo.id, input.id), eq(photo.userId, user.id)))
+        .where(eq(photo.id, input.id))
         .limit(1);
-
       if (existingPhoto.length === 0) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Photo not found or you don't have permission to delete it",
+          message: "Photo not found",
         });
       }
 
@@ -369,13 +365,13 @@ export const photos = {
       try {
         const [photoData] = await db.select()
           .from(photo)
-          .where(and(eq(photo.id, input.id), eq(photo.userId, user.id)))
+          .where(eq(photo.id, input.id))
           .limit(1);
 
         if (!photoData) {
           throw new ActionError({
             code: "NOT_FOUND",
-            message: "Photo not found or you don't have permission to view it",
+            message: "Photo not found",
           });
         }
 
@@ -452,19 +448,14 @@ export const photos = {
           message: "You must be logged in to delete photos",
         });
       }
-
-      // Verify all photos belong to the user
+      // Find all photos by ID
       const existingPhotos = await db.select()
         .from(photo)
-        .where(and(
-          eq(photo.userId, user.id),
-          sql`${photo.id} IN (${sql.join(input.photoIds.map(id => sql`${id}`), sql`, `)})`
-        ));
-
+        .where(sql`${photo.id} IN (${sql.join(input.photoIds.map(id => sql`${id}`), sql`, `)})`);
       if (existingPhotos.length !== input.photoIds.length) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Some photos not found or you don't have permission to delete them",
+          message: "Some photos not found",
         });
       }
 
@@ -513,19 +504,14 @@ export const photos = {
           message: "You must be logged in to manage galleries",
         });
       }
-
-      // Verify all photos belong to the user
+      // Find all photos by ID
       const existingPhotos = await db.select()
         .from(photo)
-        .where(and(
-          eq(photo.userId, user.id),
-          sql`${photo.id} IN (${sql.join(input.photoIds.map(id => sql`${id}`), sql`, `)})`
-        ));
-
+        .where(sql`${photo.id} IN (${sql.join(input.photoIds.map(id => sql`${id}`), sql`, `)})`);
       if (existingPhotos.length !== input.photoIds.length) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Some photos not found or you don't have permission to add them",
+          message: "Some photos not found",
         });
       }
 
@@ -624,8 +610,7 @@ export const photos = {
 
       try {
         const result = await db.select({ count: sql<number>`COUNT(*)` })
-          .from(photo)
-          .where(eq(photo.userId, user.id));
+          .from(photo);
 
         return { count: result[0]?.count || 0 };
       } catch (error) {

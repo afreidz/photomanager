@@ -42,7 +42,6 @@ export const galleries = {
       }
 
       const slug = generateSlug(input.name);
-      
       // Check if slug already exists
       const existingGallery = await db.select().from(gallery).where(eq(gallery.slug, slug)).limit(1);
       if (existingGallery.length > 0) {
@@ -91,7 +90,6 @@ export const galleries = {
           message: "You must be logged in to update galleries"
         });
       }
-
       // Validate that featured galleries must be public
       if (input.isFeatured && !input.isPublic) {
         throw new ActionError({
@@ -99,16 +97,14 @@ export const galleries = {
           message: "Featured galleries must be public"
         });
       }
-
-      // Check if gallery exists and belongs to user
+      // Check if gallery exists
       const existingGallery = await db.select().from(gallery)
-        .where(and(eq(gallery.id, input.id), eq(gallery.userId, user.id)))
+        .where(eq(gallery.id, input.id))
         .limit(1);
-
       if (existingGallery.length === 0) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Gallery not found or you don't have permission to edit it"
+          message: "Gallery not found"
         });
       }
 
@@ -169,16 +165,14 @@ export const galleries = {
           message: "You must be logged in to delete galleries"
         });
       }
-
-      // Check if gallery exists and belongs to user
+      // Check if gallery exists
       const existingGallery = await db.select().from(gallery)
-        .where(and(eq(gallery.id, input.id), eq(gallery.userId, user.id)))
+        .where(eq(gallery.id, input.id))
         .limit(1);
-
       if (existingGallery.length === 0) {
         throw new ActionError({
           code: "NOT_FOUND",
-          message: "Gallery not found or you don't have permission to delete it"
+          message: "Gallery not found"
         });
       }
 
@@ -379,30 +373,22 @@ export const galleries = {
       }
 
       try {
-        // Ensure mutually exclusive and accurate counts
-        // Total: All galleries for the user
+        // Total: All galleries
         const [totalResult] = await db.select({ count: sql`COUNT(*)` })
-          .from(gallery)
-          .where(eq(gallery.userId, user.id));
+          .from(gallery);
 
         // Featured: Only public galleries that are marked as featured
-        // (Featured galleries MUST be public based on our validation)
         const [featuredResult] = await db.select({ count: sql`COUNT(*)` })
           .from(gallery)
           .where(and(
-            eq(gallery.userId, user.id), 
             eq(gallery.isFeatured, true),
             eq(gallery.isPublic, true)
           ));
 
         // Private: Only galleries that are NOT public
-        // (Private galleries are never featured)
         const [privateResult] = await db.select({ count: sql`COUNT(*)` })
           .from(gallery)
-          .where(and(
-            eq(gallery.userId, user.id), 
-            eq(gallery.isPublic, false)
-          ));
+          .where(eq(gallery.isPublic, false));
 
         const counts = {
           total: Number(totalResult.count),

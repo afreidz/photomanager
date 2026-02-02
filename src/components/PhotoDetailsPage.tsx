@@ -229,10 +229,25 @@ const PhotoDetailsPage: React.FC<PhotoDetailsPageProps> = observer(({ photoId, o
             </>
           ) : (
             <Button
-              onClick={() => {
-                // Handle delete
+              onClick={async () => {
                 if (confirm('Are you sure you want to delete this photo? This action cannot be undone.')) {
-                  // Add delete logic here
+                  if (!photo) return;
+                  try {
+                    const result = await actions.photos.delete({ id: photo.id });
+                    if (result.error) {
+                      setError(result.error.message);
+                      return;
+                    }
+                    // Optionally show a success message or toast here
+                    if (onClose) {
+                      onClose();
+                    } else {
+                      setPhoto(null);
+                    }
+                  } catch (err) {
+                    setError('Failed to delete photo');
+                    console.error('Error deleting photo:', err);
+                  }
                 }
               }}
               variant="destructive"
