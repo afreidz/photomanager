@@ -34,12 +34,6 @@ export const listUsers = defineAction({
       throw new Error('Unauthorized');
     }
 
-    // Check if user is the first registered user (admin)
-    const users = await db.select().from(user).orderBy(user.createdAt).limit(1);
-    if (!users.length || users[0].id !== locals.user.id) {
-      throw new Error('Only the admin user can view users');
-    }
-
     // Get all users
     const allUsers = await db.select().from(user).orderBy(user.createdAt);
 

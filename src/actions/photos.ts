@@ -402,25 +402,22 @@ export const photos = {
       }
 
       try {
-      const photos = await db.select({
-        id: photo.id,
-        title: photo.title,
-        description: photo.description,
-        tags: photo.tags,
-        imageId: photo.imageId,
-        originalFilename: photo.originalFilename,
-        assetFootprint: photo.assetFootprint,
-        userId: photo.userId,
-        createdAt: photo.createdAt,
-        updatedAt: photo.updatedAt,
-        sortOrder: galleryPhoto.sortOrder,
-      })
+        const photos = await db.select({
+          id: photo.id,
+          title: photo.title,
+          description: photo.description,
+          tags: photo.tags,
+          imageId: photo.imageId,
+          originalFilename: photo.originalFilename,
+          assetFootprint: photo.assetFootprint,
+          userId: photo.userId,
+          createdAt: photo.createdAt,
+          updatedAt: photo.updatedAt,
+          sortOrder: galleryPhoto.sortOrder,
+        })
           .from(photo)
           .innerJoin(galleryPhoto, eq(photo.id, galleryPhoto.photoId))
-          .where(and(
-            eq(galleryPhoto.galleryId, input.galleryId),
-            eq(photo.userId, user.id)
-          ))
+          .where(eq(galleryPhoto.galleryId, input.galleryId))
           .orderBy(galleryPhoto.sortOrder);
 
         return { photos };
