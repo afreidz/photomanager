@@ -208,7 +208,7 @@ export const galleries = {
         // First get featured galleries
         const galleries = await db.select()
           .from(gallery)
-          .where(and(eq(gallery.userId, user.id), eq(gallery.isFeatured, true)))
+          .where(and(eq(gallery.isFeatured, true), eq(gallery.isPublic, true)))
           .orderBy(desc(gallery.updatedAt))
           .limit(input.limit)
           .offset(input.offset);
@@ -269,7 +269,7 @@ export const galleries = {
         // First get private galleries
         const galleries = await db.select()
           .from(gallery)
-          .where(and(eq(gallery.userId, user.id), eq(gallery.isPublic, false)))
+          .where(eq(gallery.isPublic, false))
           .orderBy(desc(gallery.updatedAt))
           .limit(input.limit)
           .offset(input.offset);
@@ -424,13 +424,13 @@ export const galleries = {
       try {
         const [galleryData] = await db.select()
           .from(gallery)
-          .where(and(eq(gallery.id, input.id), eq(gallery.userId, user.id)))
+          .where(eq(gallery.id, input.id))
           .limit(1);
 
         if (!galleryData) {
           throw new ActionError({
             code: "NOT_FOUND",
-            message: "Gallery not found or you don't have permission to view it"
+            message: "Gallery not found"
           });
         }
 

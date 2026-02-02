@@ -6,33 +6,26 @@ import { UserManagement } from '@/components/UserManagement';
 // This page is protected by middleware
 const currentUser = Astro.locals.user;
 
-// Check if user is admin using action
-const { data: adminData, error: adminError } = await Astro.callAction(
-  actions.users.isCurrentUserAdmin,
-  {}
-);
-
-if (adminError || !adminData?.isAdmin) {
-  return Astro.redirect('/dashboard');
-}
-
-// Only admin users can see invitations
+// Check if user is admin using action (optional, only for invitations)
+let isCurrentUserAdmin = false;
 let activeInvitations: any[] = [];
-if (adminData?.isAdmin) {
-  // Fetch all active invitations using action
-  const { data: invitationsData, error: invitationsError } =
-    await Astro.callAction(actions.invitations.list, {});
-
-  if (invitationsError) {
-    console.error(invitationsError);
-    throw new Error('Failed to fetch invitations');
+try {
+  const { data: adminData } = await Astro.callAction(actions.users.isCurrentUserAdmin, {});
+  isCurrentUserAdmin = !!adminData?.isAdmin;
+  if (isCurrentUserAdmin) {
+    // Fetch all active invitations using action
+    const { data: invitationsData, error: invitationsError } =
+      await Astro.callAction(actions.invitations.list, {});
+    if (invitationsError) {
+      console.error(invitationsError);
+      throw new Error('Failed to fetch invitations');
+    }
+    // Filter to only show active invitations
+    activeInvitations = invitationsData.invitations.filter(
+      (invite) => !invite.isUsed
+    );
   }
-
-  // Filter to only show active invitations
-  activeInvitations = invitationsData.invitations.filter(
-    (invite) => !invite.isUsed
-  );
-}
+} catch {}
 
 // Fetch all registered users using action
 const { data: usersData, error: usersError } = await Astro.callAction(
@@ -46,7 +39,6 @@ if (usersError) {
 }
 
 const allUsers = usersData.users;
-const isCurrentUserAdmin = adminData?.isAdmin || false;
 ---
 <Layout title="User Management - Photography CMS" currentPath="/users">
   <UserManagement
