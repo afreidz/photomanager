@@ -36,7 +36,6 @@ export const apiKeys = {
         updatedAt: apiKey.updatedAt,
       })
       .from(apiKey)
-      .where(eq(apiKey.userId, userId))
       .orderBy(apiKey.createdAt);
 
       // Don't return the actual key in the list - only key name/id
@@ -100,11 +99,11 @@ export const apiKeys = {
 
       const [updatedKey] = await db.update(apiKey)
         .set(updateData)
-        .where(and(eq(apiKey.id, id), eq(apiKey.userId, userId)))
+        .where(eq(apiKey.id, id))
         .returning();
 
       if (!updatedKey) {
-        throw new Error('API key not found or not owned by user');
+        throw new Error('API key not found');
       }
 
       return {
@@ -122,11 +121,11 @@ export const apiKeys = {
     }),
     handler: async ({ id, userId }) => {
       const [deletedKey] = await db.delete(apiKey)
-        .where(and(eq(apiKey.id, id), eq(apiKey.userId, userId)))
+        .where(eq(apiKey.id, id))
         .returning();
 
       if (!deletedKey) {
-        throw new Error('API key not found or not owned by user');
+        throw new Error('API key not found');
       }
 
       return { success: true };

@@ -14,17 +14,42 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (publicRoutes.some(route => pathname.startsWith(route))) {
     return next();
   }
-  
-  // Handle API routes with API key authentication
+
+  // CORS setup for API routes
   if (pathname.startsWith("/api/")) {
+    const allowedOrigins = ["https://lvfphotography.com", "https://lvf-photo.up.railway.app/", "https://manage.lvfphotography.com"];
+    const origin = context.request.headers.get("Origin");
+    const isLocalhostOrigin = origin && (
+      origin.startsWith("http://localhost") ||
+      origin.startsWith("http://127.0.0.1") ||
+      origin.startsWith("https://localhost") ||
+      origin.startsWith("https://127.0.0.1")
+    );
+    const isAllowedOrigin = (origin && allowedOrigins.includes(origin)) || isLocalhostOrigin;
+
+    // Handle preflight OPTIONS request
+    if (context.request.method === "OPTIONS") {
+      const corsHeaders = {
+        "Access-Control-Allow-Origin": isAllowedOrigin ? origin : "",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+      };
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+
     // Allow public API routes
     if (publicApiRoutes.some(route => pathname.startsWith(route))) {
-      return next();
+      // Add CORS headers to response
+      const response = await next();
+      response.headers.set("Access-Control-Allow-Origin", isAllowedOrigin ? origin : "");
+      response.headers.set("Access-Control-Allow-Credentials", "true");
+      return response;
     }
-    
+
     // Validate API key for protected API routes
     const validation = await validateApiKey(context);
-    
+
     if (!validation.valid) {
       return new Response(
         JSON.stringify({ 
@@ -36,13 +61,18 @@ export const onRequest = defineMiddleware(async (context, next) => {
           headers: {
             'Content-Type': 'application/json',
             'WWW-Authenticate': 'Bearer realm="API"',
+            'Access-Control-Allow-Origin': isAllowedOrigin ? origin : "",
+            'Access-Control-Allow-Credentials': 'true',
           },
         }
       );
     }
-    
+
     // API key is valid, allow access
-    return next();
+    const response = await next();
+    response.headers.set("Access-Control-Allow-Origin", isAllowedOrigin ? origin : "");
+    response.headers.set("Access-Control-Allow-Credentials", "true");
+    return response;
   }
   
   // Check session authentication for web routes
