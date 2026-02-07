@@ -17,7 +17,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // CORS setup for API routes
   if (pathname.startsWith("/api/")) {
-    const allowedOrigins = ["https://lvfphotography.com", "https://lvf-photo.up.railway.app/", "https://manage.lvfphotography.com"];
+    const allowedOrigins = [
+      "https://lvfphotography.com",
+      "https://manage.lvfphotography.com",
+      "https://lvf-photo.up.railway.app"
+    ];
     const origin = context.request.headers.get("Origin");
     const isLocalhostOrigin = origin && (
       origin.startsWith("http://localhost") ||
