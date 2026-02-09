@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { db } from "@/lib/db/index.js";
 import { gallery, galleryPhoto, photo } from "@/lib/db/schema.js";
 
@@ -10,6 +10,13 @@ export const GET: APIRoute = async ({ url, locals: _ }) => {
   const offset = parseInt(searchParams.get("offset") || "0");
 
   try {
+    // Subquery to find the minimum sortOrder for each gallery
+    const minSortOrderSubquery = sql`(
+      SELECT MIN(${galleryPhoto.sortOrder}) 
+      FROM ${galleryPhoto} 
+      WHERE ${galleryPhoto.galleryId} = ${gallery.id}
+    )`;
+
     let query = db
       .select({
         id: gallery.id,
@@ -40,7 +47,7 @@ export const GET: APIRoute = async ({ url, locals: _ }) => {
         galleryPhoto,
         and(
           eq(galleryPhoto.galleryId, gallery.id),
-          eq(galleryPhoto.sortOrder, 0),
+          eq(galleryPhoto.sortOrder, minSortOrderSubquery),
         ),
       )
       .leftJoin(photo, eq(photo.id, galleryPhoto.photoId));
